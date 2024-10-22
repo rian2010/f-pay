@@ -31,6 +31,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "81b7b6e4-9fbe-413f-99d6-a6e360025699"
+      }
+    },
+    "owner": "pink_papaya"
   }
 }
