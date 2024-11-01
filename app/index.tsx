@@ -53,7 +53,7 @@ const Onboarding = () => {
               height: currentIndex === i ? 8 : 8, // Larger size for active dot
               borderRadius: 6, // Keep the circle shape
               marginHorizontal: 2,
-              backgroundColor: currentIndex === i ? "#01ADEF" : "#D0D0D0", // Active dot is filled
+              backgroundColor: currentIndex === i ? "#01ADEF" : "#D0D0D0", // Active dot is filled(
               borderColor: currentIndex === i ? "#01ADEF" : "#D0D0D0", // Border color for inactive dots
               borderWidth: 1, // Outline for inactive dots
             }}

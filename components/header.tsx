@@ -5,7 +5,6 @@ import { View, Image, StyleSheet } from 'react-native';
 const Header = () => {
   return (
     <View style={styles.headerBackground}>
-      {/* Profile Avatar */}
       <View style={styles.avatarContainer}>
         <Image
           source={images.avatar} // Replace with actual avatar image URL

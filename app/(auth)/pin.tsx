@@ -23,7 +23,7 @@ const PinEntryScreen: React.FC = () => {
   //        implemented using backend yet, simply just a logic!
   useEffect(() => {
     if (pin.length === 6) {
-      navigation.navigate('(tabs)');
+      navigation.navigate('(root)');
     }
   }
   )
