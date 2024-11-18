@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import InputField from '@/components/FormField';
+import { useNavigation } from '@react-navigation/native';
 
 
 const SignUpPage: React.FC = () => {
@@ -8,6 +9,7 @@ const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const navigation = useNavigation();
 
   const [errors, setErrors] = useState({
     name: '',
@@ -15,6 +17,10 @@ const SignUpPage: React.FC = () => {
     birthdate: '',
     phoneNumber: '',
   });
+
+  const handleFaceRegister = () => {
+    navigation.navigate('face-recog');
+  }
 
   const validateForm = () => {
     let valid = true;
@@ -92,7 +98,7 @@ const SignUpPage: React.FC = () => {
         />
       </ScrollView>
 
-      <TouchableOpacity style={styles.button} onPress={handleNextStep}>
+      <TouchableOpacity style={styles.button} onPress={handleFaceRegister}>
         <Text style={styles.buttonText}>Langkah Selanjutnya</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
