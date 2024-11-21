@@ -26,6 +26,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.HandleFunc("/readAgain", GetUsers).Methods("GET")
 	router.HandleFunc("/read", GetUserHandler).Methods("GET")
 	router.HandleFunc("/register", RegisterHandler).Methods("POST")
 	router.HandleFunc("/login", LoginHandler).Methods("POST")

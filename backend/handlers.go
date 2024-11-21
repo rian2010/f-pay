@@ -11,7 +11,45 @@ import (
 type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Pin      string `json:"pin"`
 	NoHp     string `json:"no_hp"`
+}
+
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	// Query the database to get all users
+	rows, err := db.Query("SELECT username, password, pin, no_hp FROM users")
+	if err != nil {
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	// Create a slice to store all users
+	var users []User
+
+	// Loop through the rows and scan the user data into the users slice
+	for rows.Next() {
+		var user User
+		if err := rows.Scan(&user.Username, &user.Password, &user.Pin, &user.NoHp); err != nil {
+			http.Error(w, "Error scanning data", http.StatusInternalServerError)
+			return
+		}
+		users = append(users, user)
+	}
+
+	// Check for any errors from iterating over rows
+	if err := rows.Err(); err != nil {
+		http.Error(w, "Error reading data", http.StatusInternalServerError)
+		return
+	}
+
+	// Set the header for the response to be JSON
+	w.Header().Set("Content-Type", "application/json")
+	// Encode and send the users as a JSON response
+	if err := json.NewEncoder(w).Encode(users); err != nil {
+		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
+		return
+	}
 }
 
 // GetUserHandler retrieves a user from the database (for development purposes only)
@@ -56,7 +94,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Insert the user with the hashed password and no_hp into the database
 	_, err = db.Exec(
-		"INSERT INTO users (username, password, no_hp) VALUES ($1, $2, $3)", // Ensure to include the no_hp in the query
+		"INSERT INTO users (username, password, pin, no_hp) VALUES ($1, $2, $3, $4)", // Ensure to include the no_hp in the query
 		user.Username,
 		hashedPassword,
 		user.NoHp, // Use the no_hp value from the request body
