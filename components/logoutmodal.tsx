@@ -51,12 +51,12 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    paddingVertical: 10,
+    paddingVertical: 8,
     alignItems: 'center',
   },
   cancelText: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 8.5,
     fontFamily: 'PoppinsRegular'
   },
   logoutText: {
