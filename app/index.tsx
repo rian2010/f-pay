@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import images from "@/constants/images"; // Replace with actual image paths
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
@@ -26,7 +26,6 @@ const slides = [
 const Onboarding = () => {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const navigation = useNavigation();
 
   const handleNext = () => {
     if (currentIndex < slides.length - 1) {

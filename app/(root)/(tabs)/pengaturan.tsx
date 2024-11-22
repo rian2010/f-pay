@@ -1,37 +1,53 @@
-import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, StatusBar } from 'react-native';
-import TabSection from '@/components/in_out';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import TabSection from '@/components/in_out';
 import images from '@/constants/images';
 
+import LogoutModal from '@/components/logoutmodal';
+
 const Account = () => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  // Function to toggle the modal visibility
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  // Function to handle logout action
+  const handleLogout = () => {
+    toggleModal();
+    console.log('User logged out');
+    // Add your logout logic here (e.g., clearing user data, navigating to login screen)
+  };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, paddingTop: 20, paddingBottom: 20 }}>
       <View style={styles.container}>
-
-
+        {/* Header Section */}
         <View style={{ backgroundColor: '#32A7E2' }}>
           <Text style={styles.headerTitle}>Akun</Text>
         </View>
 
+        {/* Avatar Section */}
         <View style={styles.headerBackground}>
           <View style={styles.avatarContainer}>
-            <Image
-              source={images.avatar} // Replace with actual avatar image URL
-              style={styles.avatar}
-            />
+            <Image source={images.avatar} style={styles.avatar} />
           </View>
         </View>
 
+        {/* User Name Section */}
         <View className='pt-14'>
           <Text className='text-[20px] justify-center text-center font-pregular'>Miaw</Text>
         </View>
 
+        {/* Tab Section (Your Custom Tab Component) */}
         <TabSection />
 
+        {/* Profile and Account Options */}
         <View style={styles.maincontent} className="w-[327px] h-[151px] mt-7 bg-white p-4">
-          <TouchableOpacity className="flex-row items-center justify-between mb-4" onPress={() => {/* handle Profile press */ }}>
+          {/* Profile Option */}
+          <TouchableOpacity className="flex-row items-center justify-between mb-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='account' size={24} color="#32A7E2" />
@@ -43,7 +59,8 @@ const Account = () => {
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
-          <TouchableOpacity className="flex-row items-center justify-between mt-4" onPress={() => {/* handle Account press */ }}>
+          {/* Account Option */}
+          <TouchableOpacity className="flex-row items-center justify-between mt-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='shield-account-variant' size={24} color="#32A7E2" />
@@ -54,8 +71,10 @@ const Account = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Help Center and Terms Section */}
         <View style={styles.maincontent} className="w-[327px] h-[221px] mt-7 bg-white p-4">
-          <TouchableOpacity className="flex-row items-center justify-between mb-4" onPress={() => {/* handle FAQ press */ }}>
+          {/* FAQ Option */}
+          <TouchableOpacity className="flex-row items-center justify-between mb-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='frequently-asked-questions' size={24} color="#32A7E2" />
@@ -67,7 +86,8 @@ const Account = () => {
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
-          <TouchableOpacity className="flex-row items-center justify-between mt-4 mb-4" onPress={() => {/* handle Terms press */ }}>
+          {/* Terms & Conditions Option */}
+          <TouchableOpacity className="flex-row items-center justify-between mt-4 mb-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='file-document' size={24} color="#32A7E2" />
@@ -79,7 +99,11 @@ const Account = () => {
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
-          <TouchableOpacity className="flex-row items-center justify-between mt-4" onPress={() => {/* handle Log Out press */ }}>
+          {/* Log Out Option */}
+          <TouchableOpacity
+            className="flex-row items-center justify-between mt-4"
+            onPress={toggleModal}
+          >
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='logout' size={24} color="#E74C3C" />
@@ -89,6 +113,13 @@ const Account = () => {
             <MaterialCommunityIcons name='chevron-right' size={24} color="#E74C3C" />
           </TouchableOpacity>
         </View>
+
+        {/* Logout Modal */}
+        <LogoutModal
+          isVisible={isModalVisible}
+          onClose={toggleModal}
+          onLogout={handleLogout}
+        />
       </View>
     </ScrollView>
   );
@@ -116,26 +147,24 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   avatarContainer: {
-    marginBottom: -50, // Adjust to pull the avatar upwards to overlap the blue section
+    marginBottom: -50,
     backgroundColor: '#FFFFFF',
     padding: 5,
-    borderRadius: 55, // Border radius increased to match new size
+    borderRadius: 55,
   },
   avatar: {
-    width: 100,   // Increased width of the avatar
-    height: 100,  // Increased height of the avatar
-    borderRadius: 50, // Circular avatar (half of 100)
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
-
   headerTitle: {
     fontSize: 19,
     fontFamily: 'PoppinsMedium',
     textAlign: 'center',
     marginBottom: 21,
     marginTop: 31,
-    color: 'white'
+    color: 'white',
   },
-
 });
 
 export default Account;
