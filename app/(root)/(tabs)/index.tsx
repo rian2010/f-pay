@@ -20,7 +20,7 @@ const Home = () => {
         navigation.navigate('transfer'); // Adjust with your actual screen name
         break;
       case 'Top-up':
-        navigation.navigate('TopUpScreen'); // Adjust with your actual screen name
+        navigation.navigate('topup'); // Adjust with your actual screen name
         break;
       case 'Scan QR':
         navigation.navigate('qr'); // Adjust with your actual screen name

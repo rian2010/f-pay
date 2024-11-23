@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 25,
+    borderRadius: 12,
     marginHorizontal: 20,
     marginVertical: 10,
     overflow: 'hidden',
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     backgroundColor: '#32A7E2',
-    borderRadius: 20,
+    borderRadius: 12,
   },
   tabText: {
     color: '#B0B0B0',

@@ -41,7 +41,6 @@ const Account = () => {
           <Text className='text-[20px] justify-center text-center font-pregular'>Miaw</Text>
         </View>
 
-        {/* Tab Section (Your Custom Tab Component) */}
         <TabSection />
 
         {/* Profile and Account Options */}

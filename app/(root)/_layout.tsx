@@ -34,7 +34,7 @@ const _layout = () => {
       }} />
       <Stack.Screen name="topup" options={{
         title: 'Top-Up',
-        headerShown: true,
+        headerShown: false,
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
