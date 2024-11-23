@@ -56,7 +56,7 @@ const _layout = () => {
           fontSize: 18
         },
         headerStyle: {
-          backgroundColor: '#f3f3f8'
+          backgroundColor: '#f5f5f5'
         },
 
       }} />

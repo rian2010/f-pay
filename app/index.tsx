@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, Dimensions } from "react-native";
+import { Text, Image, FlatList, TouchableOpacity, Dimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

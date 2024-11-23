@@ -17,7 +17,7 @@ const Home = () => {
   const handleActionButtonPress = (label) => {
     switch (label) {
       case 'Transfer':
-        navigation.navigate('TransferScreen'); // Adjust with your actual screen name
+        navigation.navigate('transfer'); // Adjust with your actual screen name
         break;
       case 'Top-up':
         navigation.navigate('TopUpScreen'); // Adjust with your actual screen name
