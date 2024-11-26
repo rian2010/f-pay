@@ -1,13 +1,12 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetMethods } from '@/components/topupMethod';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 const TopUpScreen = () => {
-
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const pressHandler = useCallback(() => {
     bottomSheetRef.current?.expand();
@@ -24,17 +23,15 @@ const TopUpScreen = () => {
     <SafeAreaProvider>
       <GestureHandlerRootView>
         <View style={styles.container}>
-
-          <View className='flex-row items-center justify-center'>
+          {/* Header */}
+          <View className="flex-row items-center justify-center">
             <TouchableOpacity onPress={() => router.back()} style={{ position: 'absolute', left: 2 }}>
-              <Ionicons name='arrow-back' size={21} color="#333" />
+              <Ionicons name="arrow-back" size={21} color="#333" />
             </TouchableOpacity>
-
-            <Text className='font-pregular mb-[21px] mt-[20px] text-[18px]'>
-              Top Up
-            </Text>
+            <Text className="font-pregular mb-[21px] mt-[20px] text-[18px]">Top Up</Text>
           </View>
 
+          {/* Top Up Methods */}
           <View style={styles.methodContainer}>
             <TouchableOpacity
               style={[
@@ -62,10 +59,18 @@ const TopUpScreen = () => {
 
           {/* Top Up Amount Section */}
           <View style={styles.amountContainer}>
-            <Text style={styles.amountText}>Rp{amount}</Text>
-            <TouchableOpacity>
-              <Ionicons name="pencil-outline" size={18} color="#555" />
-            </TouchableOpacity>
+            <Text className='font-pregular text-lg items-center justify-center'>Rp.</Text>
+            <TextInput
+              style={styles.amountInput}
+              value={amount.toString()}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                const parsedAmount = parseInt(text, 10) || 0;
+                setAmount(parsedAmount);
+              }}
+              placeholder="Enter amount"
+              placeholderTextColor="#aaa"
+            />
           </View>
 
           {/* Preset Amount Options */}
@@ -84,37 +89,33 @@ const TopUpScreen = () => {
           {/* Spacer to push elements down */}
           <View style={{ flex: 1 }} />
 
+          {/* Bottom Actions */}
           <View style={styles.whiteContainer}>
             <TouchableOpacity style={styles.warningContainer} onPress={() => pressHandler()}>
               <View className="bg-red-500 rounded-[25px] h-[28px] w-[28px] items-center justify-center mr-2">
-                <Ionicons name='ellipsis-horizontal-sharp' size={20} color="white" />
+                <Ionicons name="ellipsis-horizontal-sharp" size={20} color="white" />
               </View>
               <View className="flex-col">
                 <Text>TopUp saldo dengan</Text>
-                <Text className='mr-[4px] text-red-500 text-[12px]'>Pilih metode top up</Text>
+                <Text className="mr-[4px] text-red-500 text-[12px]">Pilih metode top up</Text>
               </View>
-
             </TouchableOpacity>
             <TouchableOpacity style={styles.confirmButton}>
               <Text style={styles.confirmButtonText}>Konfirmasi & top up</Text>
               <Text style={styles.confirmAmount}>Rp{amount}</Text>
               <Ionicons name="arrow-forward-outline" size={18} color="#fff" style={styles.arrowIcon} />
             </TouchableOpacity>
-
           </View>
+
           <BottomSheet
             ref={bottomSheetRef}
             snapTo={'75%'}
             backgroundColor={'white'}
             backDropColor={'black'}
           />
-
-
         </View>
-
       </GestureHandlerRootView>
-    </SafeAreaProvider >
-
+    </SafeAreaProvider>
   );
 };
 
@@ -153,13 +154,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginBottom: 20,
   },
-  amountText: {
+  amountInput: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#555',
+    width: '100%',
+    textAlign: 'center',
+    padding: 5,
+    backgroundColor: '#dfe4ea',
+    borderRadius: 10,
   },
   presetContainer: {
     flexDirection: 'row',
