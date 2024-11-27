@@ -4,9 +4,22 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TabSection from '@/components/in_out';
 import images from '@/constants/images';
 
+
 import LogoutModal from '@/components/logoutmodal';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 
 const Account = () => {
+
+  const handleProfile = () => {
+    router.push("/(profile)/profil");
+  }
+
+  const handleAkun = () => {
+    router.push("/(profile)/pengaturanAkun");
+  }
+
+
   const [isModalVisible, setModalVisible] = useState(false);
 
   // Function to toggle the modal visibility
@@ -46,7 +59,7 @@ const Account = () => {
         {/* Profile and Account Options */}
         <View style={styles.maincontent} className="w-[327px] h-[151px] mt-7 bg-white p-4">
           {/* Profile Option */}
-          <TouchableOpacity className="flex-row items-center justify-between mb-4">
+          <TouchableOpacity className="flex-row items-center justify-between mb-4" onPress={handleProfile}>
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='account' size={24} color="#32A7E2" />
@@ -59,7 +72,7 @@ const Account = () => {
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
           {/* Account Option */}
-          <TouchableOpacity className="flex-row items-center justify-between mt-4">
+          <TouchableOpacity className="flex-row items-center justify-between mt-4" onPress={handleAkun}>
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
                 <MaterialCommunityIcons name='shield-account-variant' size={24} color="#32A7E2" />

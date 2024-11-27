@@ -6,7 +6,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import images from '@/constants/images';
 import { useNavigation } from '@react-navigation/native';
 
-const Home = () => {
+const HomeScreen = () => {
 
   const navigation = useNavigation();
 
@@ -177,5 +177,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeScreen;
 

@@ -79,7 +79,7 @@ const Onboarding = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#F6F6F6" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
         <FlatList
           data={slides}
           renderItem={renderItem}

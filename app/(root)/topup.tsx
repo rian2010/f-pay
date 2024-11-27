@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetMethods } from '@/components/topupMethod';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+
+import Card from '@/components/card';
 
 const TopUpScreen = () => {
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
@@ -14,9 +16,23 @@ const TopUpScreen = () => {
 
   const [amount, setAmount] = useState(0);
   const [selectedMethod, setSelectedMethod] = useState('Instan');
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   const handleAmountPress = (value: number) => {
     setAmount(value);
+  };
+
+  const cards = [
+    { id: '1', name: 'Visa', image: 'https://www.pngall.com/wp-content/uploads/2017/05/Visa-Logo-PNG-Pic.png' },
+    { id: '2', name: 'Indomaret', image: 'https://iconlogovector.com/uploads/images/2024/03/lg-65e77e076d60d-Indomaret.webp' },
+  ];
+
+  const onSelectCard = (cardId: string) => {
+    // Toggle card selection (deselect if already selected)
+    setSelectedCard((prevSelectedCard) => (prevSelectedCard === cardId ? null : cardId));
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.close(); // Close bottom sheet after selection
+    }
   };
 
   return (
@@ -24,20 +40,17 @@ const TopUpScreen = () => {
       <GestureHandlerRootView>
         <View style={styles.container}>
           {/* Header */}
-          <View className="flex-row items-center justify-center">
+          <View style={styles.header}>
             <TouchableOpacity onPress={() => router.back()} style={{ position: 'absolute', left: 2 }}>
               <Ionicons name="arrow-back" size={21} color="#333" />
             </TouchableOpacity>
-            <Text className="font-pregular mb-[21px] mt-[20px] text-[18px]">Top Up</Text>
+            <Text style={styles.headerText}>Top Up</Text>
           </View>
 
           {/* Top Up Methods */}
           <View style={styles.methodContainer}>
             <TouchableOpacity
-              style={[
-                styles.methodButton,
-                selectedMethod === 'Instan' && styles.activeMethodButton,
-              ]}
+              style={[styles.methodButton, selectedMethod === 'Instan' && styles.activeMethodButton]}
               onPress={() => setSelectedMethod('Instan')}
             >
               <Text style={selectedMethod === 'Instan' ? styles.activeMethodText : styles.methodText}>
@@ -45,10 +58,7 @@ const TopUpScreen = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.methodButton,
-                selectedMethod === 'Metode lain' && styles.activeMethodButton,
-              ]}
+              style={[styles.methodButton, selectedMethod === 'Metode lain' && styles.activeMethodButton]}
               onPress={() => setSelectedMethod('Metode lain')}
             >
               <Text style={selectedMethod === 'Metode lain' ? styles.activeMethodText : styles.methodText}>
@@ -59,18 +69,20 @@ const TopUpScreen = () => {
 
           {/* Top Up Amount Section */}
           <View style={styles.amountContainer}>
-            <Text className='font-pregular text-lg items-center justify-center'>Rp.</Text>
-            <TextInput
-              style={styles.amountInput}
-              value={amount.toString()}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                const parsedAmount = parseInt(text, 10) || 0;
-                setAmount(parsedAmount);
-              }}
-              placeholder="Enter amount"
-              placeholderTextColor="#aaa"
-            />
+            <View style={styles.amountWrapper}>
+              <Text style={styles.currency}>Rp.</Text>
+              <TextInput
+                style={styles.amountInput}
+                value={amount.toString()}
+                keyboardType="numeric"
+                onChangeText={(text) => {
+                  const parsedAmount = parseInt(text, 10) || 0;
+                  setAmount(parsedAmount);
+                }}
+                placeholder="Enter amount"
+                placeholderTextColor="#aaa"
+              />
+            </View>
           </View>
 
           {/* Preset Amount Options */}
@@ -91,28 +103,52 @@ const TopUpScreen = () => {
 
           {/* Bottom Actions */}
           <View style={styles.whiteContainer}>
-            <TouchableOpacity style={styles.warningContainer} onPress={() => pressHandler()}>
-              <View className="bg-red-500 rounded-[25px] h-[28px] w-[28px] items-center justify-center mr-2">
-                <Ionicons name="ellipsis-horizontal-sharp" size={20} color="white" />
-              </View>
-              <View className="flex-col">
-                <Text>TopUp saldo dengan</Text>
-                <Text className="mr-[4px] text-red-500 text-[12px]">Pilih metode top up</Text>
+            <TouchableOpacity
+              style={[styles.warningContainer, selectedCard && styles.selectedCardBackground]}
+              onPress={() => pressHandler()}
+            >
+              {!selectedCard && (
+                <View style={styles.ellipsisContainer}>
+                  <Ionicons name="ellipsis-horizontal-sharp" size={20} color="white" />
+                </View>
+              )}
+              <View style={styles.cardInfoContainer}>
+                {selectedCard ? (
+                  <>
+                    <Image
+                      source={{ uri: cards.find((c) => c.id === selectedCard)?.image }}
+                      style={styles.cardImage}
+                    />
+                    <Text style={styles.cardName}>
+                      {cards.find((c) => c.id === selectedCard)?.name}
+                    </Text>
+                  </>
+                ) : (
+                  <Text style={styles.selectMethodText}>Pilih metode top up</Text>
+                )}
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.confirmButton}>
-              <Text style={styles.confirmButtonText}>Konfirmasi & top up</Text>
-              <Text style={styles.confirmAmount}>Rp{amount}</Text>
+              <Text style={styles.confirmAmount}>Rp. {amount}</Text>
               <Ionicons name="arrow-forward-outline" size={18} color="#fff" style={styles.arrowIcon} />
             </TouchableOpacity>
           </View>
 
-          <BottomSheet
-            ref={bottomSheetRef}
-            snapTo={'75%'}
-            backgroundColor={'white'}
-            backDropColor={'black'}
-          />
+          <BottomSheet ref={bottomSheetRef} snapTo="70%" backgroundColor="#ffffff" backDropColor="rgba(0, 0, 0, 0.5)">
+            <View style={{ padding: 16 }}>
+              <Text style={styles.bottomSheetTitle}>Pilih Metode Pembayaran</Text>
+              {cards.map((card) => (
+                <Card
+                  key={card.id}
+                  id={card.id}
+                  name={card.name}
+                  image={card.image}
+                  isSelected={selectedCard === card.id}
+                  onSelect={onSelectCard}
+                />
+              ))}
+            </View>
+          </BottomSheet>
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
@@ -125,6 +161,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     paddingHorizontal: 16,
     paddingTop: 30,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Regular',
+    marginBottom: 21,
+    marginTop: 20,
   },
   methodContainer: {
     flexDirection: 'row',
@@ -152,17 +199,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#dfe4ea',
     borderRadius: 10,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+  },
+  amountWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  currency: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#555',
   },
   amountInput: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#555',
-    width: '100%',
     textAlign: 'center',
+    width: 120,
     padding: 5,
     backgroundColor: '#dfe4ea',
     borderRadius: 10,
@@ -200,28 +258,60 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 5,
   },
-  confirmButton: {
-    backgroundColor: '#3b82f6',
-    borderRadius: 10,
-    marginTop: 10,
-    paddingVertical: 15,
+  selectedCardBackground: {
+    backgroundColor: '#D8E1F8',
+  },
+  ellipsisContainer: {
+    backgroundColor: '#ff5c5c',
+    borderRadius: 25,
+    height: 28,
+    width: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  cardInfoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
   },
-  confirmButtonText: {
+  cardImage: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+    resizeMode: 'contain',
+  },
+  cardName: {
     fontSize: 16,
-    color: '#fff',
     fontWeight: 'bold',
+    color: '#333',
+  },
+  selectMethodText: {
+    fontSize: 16,
+    color: '#555',
+    fontFamily: "PoppinsMedium"
+  },
+  confirmButton: {
+    backgroundColor: '#3b82f6',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 10,
   },
   confirmAmount: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
-    marginLeft: 8,
   },
   arrowIcon: {
-    marginLeft: 8,
+    marginLeft: 10,
+  },
+  bottomSheetTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    fontFamily: "PoppinsMedium",
+    marginLeft: 7
   },
 });
 
