@@ -1,35 +1,106 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  Modal,
+  Pressable,
+} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 
 const AccountScreen = () => {
-  const [isFacePayEnabled, setIsFacePayEnabled] = useState(false);
+  const [isFacePayEnabled, setIsFacePayEnabled] = useState(true); // Default value
+  const [showModal, setShowModal] = useState(false);
 
-  const toggleFacePay = () => {
-    setIsFacePayEnabled(previousState => !previousState);
+  const navigation = useNavigation();
+
+  const handleChangePassword = () => {
+    router.push('/(auth)/forgotPassword')
+  }
+
+  const toggleFacePay = (value) => {
+    if (!value) {
+      // If the user is disabling, show the modal
+      setShowModal(true);
+    } else {
+      // Enable the switch directly
+      setIsFacePayEnabled(true);
+    }
+  };
+
+  const confirmDisable = () => {
+    setIsFacePayEnabled(false); // Disable the Switch
+    setShowModal(false); // Close the modal
+  };
+
+  const cancelDisable = () => {
+    setShowModal(false); // Close the modal without changing the Switch state
   };
 
   return (
     <View style={styles.container}>
-      {/* Content Section */}
-      <Text style={styles.todayText}>Today</Text>
-      <View style={styles.optionContainer}>
-        <View style={styles.option}>
-          <MaterialCommunityIcons name="lock" size={24} color="#4C9AFF" />
-          <Text style={styles.optionText}>Ganti Pin</Text>
-        </View>
-        <View style={styles.option}>
-          <MaterialCommunityIcons name="face-recognition" size={24} color="#4C9AFF" />
-          <Text style={styles.optionText}>Face Pay</Text>
+      <View style={styles.maincontent} className="w-[327px] h-[161px] mt-7 bg-white p-4">
+        <TouchableOpacity className="flex-row items-center justify-between mb-4" onPress={handleChangePassword}>
+          <View className="flex-row items-center">
+            <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
+              <MaterialCommunityIcons name="lock" size={24} color="#32A7E2" />
+            </View>
+            <Text className="text-sm font-pregular">Ganti pin</Text>
+          </View>
+
+          <MaterialCommunityIcons name='chevron-right' size={24} color="#32A7E2" />
+        </TouchableOpacity>
+
+
+        <View className="w-full h-[1px] bg-[#E0E0E0]" />
+
+        {/* Account Option */}
+        <TouchableOpacity className="flex-row items-center justify-between mt-4">
+          <View className="flex-row items-center">
+            <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
+              <MaterialCommunityIcons name="face-recognition" size={24} color="#32A7E2" />
+            </View>
+            <Text className="text-sm font-pregular">Akun</Text>
+          </View>
           <Switch
             value={isFacePayEnabled}
             onValueChange={toggleFacePay}
             trackColor={{ false: "#767577", true: "#4C9AFF" }}
-            thumbColor={isFacePayEnabled ? "#4C9AFF" : "#f4f3f4"}
+            thumbColor={isFacePayEnabled ? "#FFF" : "#f4f3f4"}
           />
-        </View>
+        </TouchableOpacity>
       </View>
-    </View>
+
+      {/* Modal */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={showModal}
+        onRequestClose={cancelDisable}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Nonaktifkan FacePay?</Text>
+            <Text style={styles.modalText}>
+              Anda akan kehilangan akses ke pembayaran dengan wajah. Lanjutkan?
+            </Text>
+            <View style={styles.modalActions}>
+              <Pressable style={styles.buttonOutline} onPress={cancelDisable}>
+                <Text style={styles.buttonOutlineText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={styles.buttonSolid} onPress={confirmDisable}>
+                <Text style={styles.buttonSolidText}>Disable</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+    </View >
   );
 };
 
@@ -38,48 +109,73 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F8F8',
     paddingHorizontal: 20,
-    paddingTop: 40,
   },
-  header: {
-    flexDirection: 'row',
+  maincontent: {
+    paddingLeft: 20,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    flexDirection: 'column',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
   },
-  title: {
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    marginLeft: 16,
-    color: '#333',
-  },
-  todayText: {
-    fontSize: 16,
-    color: '#A0A0A0',
+    fontWeight: 'bold',
     marginBottom: 10,
   },
-  optionContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+  modalText: {
+    fontSize: 14,
+    color: '#555',
+    textAlign: 'center',
+    fontFamily: 'PoppinsMedium',
   },
-  option: {
+  modalActions: {
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
-  optionText: {
+  buttonOutline: {
     flex: 1,
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 10,
+    borderColor: '#32A7E2',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginRight: 10,
   },
+  buttonOutlineText: {
+    color: '#32A7E2',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  buttonSolid: {
+    flex: 1,
+    backgroundColor: '#FF3B30',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  buttonSolidText: {
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+
 });
 
 export default AccountScreen;
+

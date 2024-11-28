@@ -6,7 +6,6 @@ import images from '@/constants/images';
 
 
 import LogoutModal from '@/components/logoutmodal';
-import { useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
 
 const Account = () => {

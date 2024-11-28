@@ -43,9 +43,6 @@ const PinEntryScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      {/* Add your header component here */}
-
       {/* Wrapper for Dots and Keypad */}
       <View style={styles.wrapper}>
         {/* PIN Dots */}

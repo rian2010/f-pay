@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Modal,
+} from 'react-native';
 import InputField from '@/components/FormField';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -7,7 +16,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const SignUpPage: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [birthdate, setBirthdate] = useState<string>('');
+  const [birthdate, setBirthdate] = useState<Date | null>(null);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const navigation = useNavigation();
 
@@ -18,10 +27,8 @@ const SignUpPage: React.FC = () => {
     phoneNumber: '',
   });
 
-  // State for showing the date picker
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
-  // Validation function
   const validateForm = () => {
     let valid = true;
     const newErrors = { name: '', email: '', birthdate: '', phoneNumber: '' };
@@ -37,15 +44,15 @@ const SignUpPage: React.FC = () => {
       newErrors.email = 'Format email tidak valid';
       valid = false;
     }
-    if (!birthdate.trim()) {
+    if (!birthdate) {
       newErrors.birthdate = 'Tanggal lahir harus diisi';
       valid = false;
     }
     if (!phoneNumber.trim()) {
       newErrors.phoneNumber = 'No telepon harus diisi';
       valid = false;
-    } else if (!/^\+62\s\d{3,}-\d{3,}-\d{3,}$/.test(phoneNumber)) {
-      newErrors.phoneNumber = 'Format nomor telepon tidak valid (contoh: +62 812-3456-7890)';
+    } else if (!/^08\d{8,13}$/.test(phoneNumber)) {
+      newErrors.phoneNumber = 'Format nomor telepon tidak valid';
       valid = false;
     }
 
@@ -54,14 +61,12 @@ const SignUpPage: React.FC = () => {
   };
 
   const handleDateChange = (event: any, selectedDate: Date | undefined) => {
-    const currentDate = selectedDate || new Date();
     setShowDatePicker(false);
-    // Format date as DD/MM/YYYY
-    const formattedDate = currentDate.toLocaleDateString('en-GB'); // English (UK) format: DD/MM/YYYY
-    setBirthdate(formattedDate);
+    if (selectedDate) {
+      setBirthdate(selectedDate);
+    }
   };
 
-  // Handler for next step
   const handleNextStep = () => {
     if (validateForm()) {
       console.log('Proceeding with signup');
@@ -94,17 +99,21 @@ const SignUpPage: React.FC = () => {
         />
 
         <Text style={styles.inputLabel}>Tanggal Lahir</Text>
-        <TouchableOpacity
-          style={[
-            styles.inputField,
-            errors.birthdate && styles.errorBorder,
-          ]}
-          onPress={() => setShowDatePicker(true)}
-        >
-          <Text style={styles.inputValue}>{birthdate || 'Pilih tanggal'}</Text>
-        </TouchableOpacity>
-        {errors.birthdate ? <Text style={styles.errorTextInput}>{errors.birthdate}</Text> : null}
-
+        <View>
+          <TouchableOpacity
+            style={[styles.inputField, errors.birthdate && styles.errorBorder]}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={styles.inputValue}>
+              {birthdate
+                ? birthdate.toLocaleDateString('en-GB') // Format: DD/MM/YYYY
+                : 'Pilih tanggal'}
+            </Text>
+          </TouchableOpacity>
+          {errors.birthdate ? (
+            <Text style={styles.errorTextInput}>{errors.birthdate}</Text>
+          ) : null}
+        </View>
 
         <InputField
           label="No Telepon"
@@ -122,18 +131,14 @@ const SignUpPage: React.FC = () => {
         <Text style={styles.buttonText}>Langkah Selanjutnya</Text>
       </TouchableOpacity>
 
-      {/* Date Picker Modal */}
+      {/* Date Picker */}
       {showDatePicker && (
-        <Modal transparent={true} animationType="slide" visible={showDatePicker}>
-          <View style={styles.modalView}>
-            <DateTimePicker
-              value={new Date()}
-              mode="date"
-              display="spinner"
-              onChange={handleDateChange}
-            />
-          </View>
-        </Modal>
+        <DateTimePicker
+          value={birthdate || new Date()}
+          mode="date"
+          display="spinner"
+          onChange={handleDateChange}
+        />
       )}
     </KeyboardAvoidingView>
   );
@@ -157,27 +162,27 @@ const styles = StyleSheet.create({
   },
   inputField: {
     marginBottom: 20,
-    borderWidth: 1, // Add border
-    borderColor: '#ccc', // Neutral border color
-    borderRadius: 8, // Rounded corners
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
     paddingVertical: 10,
-    paddingHorizontal: 15, // Add some padding for a better look
+    paddingHorizontal: 15,
     backgroundColor: '#FFF',
   },
   inputLabel: {
     fontSize: 12,
     fontFamily: 'PoppinsMedium',
+    color: '#808080',
   },
   inputValue: {
     fontSize: 16,
     fontFamily: 'PoppinsMedium',
-    color: '#333',
     marginTop: 5,
+    color: '#808080',
   },
   errorBorder: {
     borderColor: 'red',
   },
-
   errorTextInput: {
     fontSize: 12,
     color: 'red',
@@ -199,27 +204,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: 'PoppinsMedium',
-  },
-  errorText: {
-    fontSize: 12,
-    color: 'red',
-    fontFamily: 'PoppinsRegular',
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  closeButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#01ADEF',
-    borderRadius: 10,
-  },
-  closeButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
   },
 });
 

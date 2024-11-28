@@ -78,7 +78,7 @@ export default function Home() {
         </View>
 
         <Text className="text-base font-semibold text-gray-800">
-          ABCD 😂
+          Pastikan muka anda terlihat!
         </Text>
       </View>
 
