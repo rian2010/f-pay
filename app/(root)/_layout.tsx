@@ -7,7 +7,7 @@ const _layout = () => {
       <Stack.Screen name="(profile)" options={{ headerShown: false }} />
       <Stack.Screen name="notifikasi" options={{
         title: 'Notifikasi',
-        headerShown: true,
+        headerShown: false,
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -21,7 +21,7 @@ const _layout = () => {
       }} />
       <Stack.Screen name="history" options={{
         title: 'History Transaksi',
-        headerShown: true,
+        headerShown: false,
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -49,7 +49,7 @@ const _layout = () => {
       }} />
       <Stack.Screen name="transfer" options={{
         title: 'Transfer',
-        headerShown: true,
+        headerShown: false,
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -59,8 +59,21 @@ const _layout = () => {
         headerStyle: {
           backgroundColor: '#f5f5f5'
         },
-
       }} />
+      < Stack.Screen name="contacts" options={{
+        title: 'Contacts',
+        headerShown: false,
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontFamily: 'PoppinsRegular',
+          fontSize: 18
+        },
+        headerStyle: {
+          backgroundColor: '#fff'
+        }
+      }}
+      />
     </Stack>
   )
 }

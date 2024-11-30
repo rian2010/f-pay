@@ -90,10 +90,10 @@ const AccountScreen = () => {
             </Text>
             <View style={styles.modalActions}>
               <Pressable style={styles.buttonOutline} onPress={cancelDisable}>
-                <Text style={styles.buttonOutlineText}>Cancel</Text>
+                <Text style={styles.buttonOutlineText}>Batal</Text>
               </Pressable>
               <Pressable style={styles.buttonSolid} onPress={confirmDisable}>
-                <Text style={styles.buttonSolidText}>Disable</Text>
+                <Text style={styles.buttonSolidText}>Nonaktifkan</Text>
               </Pressable>
             </View>
           </View>

@@ -23,8 +23,7 @@ const TopUpScreen = () => {
   };
 
   const cards = [
-    { id: '1', name: 'Visa', image: 'https://www.pngall.com/wp-content/uploads/2017/05/Visa-Logo-PNG-Pic.png' },
-    { id: '2', name: 'Indomaret', image: 'https://iconlogovector.com/uploads/images/2024/03/lg-65e77e076d60d-Indomaret.webp' },
+    { id: '1', name: 'Indomaret', image: 'https://iconlogovector.com/uploads/images/2024/03/lg-65e77e076d60d-Indomaret.webp' },
   ];
 
   const onSelectCard = (cardId: string) => {

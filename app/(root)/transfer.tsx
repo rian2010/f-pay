@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Keyboard from '@/components/keyboard';
 import SlidingButton from '@/components/slideButton';
+import { router } from 'expo-router';
 
 const TransferScreen: React.FC = () => {
   const [amount, setAmount] = useState<string>('0');
@@ -14,6 +15,14 @@ const TransferScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={{ position: 'absolute', left: 2 }}>
+          <Ionicons name="arrow-back" size={21} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Transfer</Text>
+      </View>
+
       <TouchableOpacity style={styles.userCard}>
         <Image
           source={{ uri: 'https://randomuser.me/api/portraits/women/68.jpg' }}
@@ -41,8 +50,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     paddingHorizontal: 20,
-    paddingTop: 40,
-    justifyContent: 'space-between',
+    paddingTop: 30,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Regular',
+    marginBottom: 21,
+    marginTop: 20,
   },
   userCard: {
     flexDirection: 'row',
@@ -50,6 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5e5e5',
     borderRadius: 10,
     padding: 15,
+    marginTop: 15,
     marginBottom: 20,
   },
   userImage: {
