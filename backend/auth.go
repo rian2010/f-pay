@@ -13,11 +13,13 @@ type User struct {
 	Password string `json:"password"`
 	Pin      string `json:"pin"`
 	NoHp     string `json:"no_hp"`
+	Rekening string `json:"account_number"`
+	Saldo    string `json:"balance"`
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	// Query the database to get all users
-	rows, err := db.Query("SELECT username, password, pin, no_hp FROM users")
+	rows, err := db.Query("SELECT username, password, pin, no_hp, account_number, saldo FROM users")
 	if err != nil {
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
@@ -30,7 +32,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	// Loop through the rows and scan the user data into the users slice
 	for rows.Next() {
 		var user User
-		if err := rows.Scan(&user.Username, &user.Password, &user.Pin, &user.NoHp); err != nil {
+		if err := rows.Scan(&user.Username, &user.Password, &user.Pin, &user.NoHp, &user.Rekening, &user.Saldo); err != nil {
 			http.Error(w, "Error scanning data", http.StatusInternalServerError)
 			return
 		}
@@ -85,10 +87,21 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(user.Pin) != 6 {
+		http.Error(w, "Pin must be 6 character", http.StatusBadRequest)
+		return
+	}
+
 	// Hash the password using the utils package (since it's in the same directory)
 	hashedPassword, err := HashPassword(user.Password)
 	if err != nil {
 		http.Error(w, "Failed to hash password", http.StatusInternalServerError)
+		return
+	}
+
+	hashedPin, err := HasPin(user.Pin)
+	if err != nil {
+		http.Error(w, "Failed to hash pin", http.StatusInternalServerError)
 		return
 	}
 
@@ -97,7 +110,8 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		"INSERT INTO users (username, password, pin, no_hp) VALUES ($1, $2, $3, $4)", // Ensure to include the no_hp in the query
 		user.Username,
 		hashedPassword,
-		user.NoHp, // Use the no_hp value from the request body
+		hashedPin,
+		user.NoHp,
 	)
 	if err != nil {
 		http.Error(w, "Could not register user", http.StatusInternalServerError)
@@ -118,6 +132,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var dbPassword string
+	var dbPin string
 	// Retrieve the hashed password from the database
 	err = db.QueryRow("SELECT password FROM users WHERE username = $1", user.Username).
 		Scan(&dbPassword)
@@ -131,6 +146,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check the password using the CheckPassword function from the same package
 	if !CheckPassword(dbPassword, user.Password) {
+		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+		return
+	}
+
+	if !CheckPin(dbPin, user.Pin) {
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
