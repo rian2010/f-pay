@@ -9,6 +9,7 @@ interface InputFieldProps extends TextInputProps {
   placeholder: string;
   icon?: string;
   iconPosition?: 'left' | 'right'; // Icon position prop
+  secureTextEntry?: boolean,
   errorMessage?: string;
 }
 
@@ -20,7 +21,7 @@ const InputField: React.FC<InputFieldProps> = ({
   icon,
   iconPosition = 'left', // Default icon position
   keyboardType = 'default',
-  secureTextEntry = false,
+  secureTextEntry,
   errorMessage,
 }) => {
   return (

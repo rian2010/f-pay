@@ -14,7 +14,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { FaceScan } from "@/components/facescan";
 import { useFont } from "@shopify/react-native-skia";
-import { useSharedValue, withTiming } from 'react-native-reanimated';
 import CircularProgressBar from "@/components/progress-bar";
 
 const RADIUS = 50;

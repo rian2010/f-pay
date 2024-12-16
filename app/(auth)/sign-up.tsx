@@ -16,8 +16,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const SignUpPage: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [birthdate, setBirthdate] = useState<Date | null>(null);
+  // const [birthdate, setBirthdate] = useState<Date | null>(null);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [pin, setPin] = useState<string>('');
   const navigation = useNavigation();
 
   const [errors, setErrors] = useState({
@@ -25,13 +26,14 @@ const SignUpPage: React.FC = () => {
     email: '',
     birthdate: '',
     phoneNumber: '',
+    pin: ''
   });
 
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { name: '', email: '', birthdate: '', phoneNumber: '' };
+    const newErrors = { name: '', email: '', birthdate: '', phoneNumber: '', pin: '' };
 
     if (!name.trim()) {
       newErrors.name = 'Nama lengkap harus diisi';
@@ -44,10 +46,10 @@ const SignUpPage: React.FC = () => {
       newErrors.email = 'Format email tidak valid';
       valid = false;
     }
-    if (!birthdate) {
-      newErrors.birthdate = 'Tanggal lahir harus diisi';
-      valid = false;
-    }
+    // if (!birthdate) {
+    //   newErrors.birthdate = 'Tanggal lahir harus diisi';
+    //   valid = false;
+    // }
     if (!phoneNumber.trim()) {
       newErrors.phoneNumber = 'No telepon harus diisi';
       valid = false;
@@ -55,17 +57,20 @@ const SignUpPage: React.FC = () => {
       newErrors.phoneNumber = 'Format nomor telepon tidak valid';
       valid = false;
     }
-
+    if (!pin.trim()) {
+      newErrors.pin = 'Pin harus diisi';
+      valid = false;
+    }
     setErrors(newErrors);
     return valid;
   };
 
-  const handleDateChange = (event: any, selectedDate: Date | undefined) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setBirthdate(selectedDate);
-    }
-  };
+  // const handleDateChange = (event: any, selectedDate: Date | undefined) => {
+  //   setShowDatePicker(false);
+  //   if (selectedDate) {
+  //     setBirthdate(selectedDate);
+  //   }
+  // };
 
   const handleNextStep = () => {
     if (validateForm()) {
@@ -98,22 +103,22 @@ const SignUpPage: React.FC = () => {
           errorMessage={errors.email}
         />
 
-        <Text style={styles.inputLabel}>Tanggal Lahir</Text>
-        <View>
-          <TouchableOpacity
-            style={[styles.inputField, errors.birthdate && styles.errorBorder]}
-            onPress={() => setShowDatePicker(true)}
-          >
-            <Text style={styles.inputValue}>
-              {birthdate
-                ? birthdate.toLocaleDateString('en-GB') // Format: DD/MM/YYYY
-                : 'Pilih tanggal'}
-            </Text>
-          </TouchableOpacity>
-          {errors.birthdate ? (
-            <Text style={styles.errorTextInput}>{errors.birthdate}</Text>
-          ) : null}
-        </View>
+        {/* <Text style={styles.inputLabel}>Tanggal Lahir</Text> */}
+        {/* <View> */}
+        {/*   <TouchableOpacity */}
+        {/*     style={[styles.inputField, errors.birthdate && styles.errorBorder]} */}
+        {/*     onPress={() => setShowDatePicker(true)} */}
+        {/*   > */}
+        {/*     <Text style={styles.inputValue}> */}
+        {/*       {birthdate */}
+        {/*         ? birthdate.toLocaleDateString('en-GB') // Format: DD/MM/YYYY */}
+        {/*         : 'Pilih tanggal'} */}
+        {/*     </Text> */}
+        {/*   </TouchableOpacity> */}
+        {/*   {errors.birthdate ? ( */}
+        {/*     <Text style={styles.errorTextInput}>{errors.birthdate}</Text> */}
+        {/*   ) : null} */}
+        {/* </View> */}
 
         <InputField
           label="No Telepon"
@@ -125,6 +130,17 @@ const SignUpPage: React.FC = () => {
           keyboardType="phone-pad"
           errorMessage={errors.phoneNumber}
         />
+        <InputField
+          label="Pin"
+          value={pin}
+          onChangeText={setPin}
+          placeholder="**********"
+          icon="lock"
+          iconPosition="left"
+          keyboardType="phone-pad"
+          secureTextEntry={true} // Correct syntax for secureTextEntry
+          errorMessage={errors.pin}
+        />
       </ScrollView>
 
       <TouchableOpacity style={styles.button} onPress={handleNextStep}>
@@ -132,14 +148,14 @@ const SignUpPage: React.FC = () => {
       </TouchableOpacity>
 
       {/* Date Picker */}
-      {showDatePicker && (
-        <DateTimePicker
-          value={birthdate || new Date()}
-          mode="date"
-          display="spinner"
-          onChange={handleDateChange}
-        />
-      )}
+      {/* {showDatePicker && ( */}
+      {/*   <DateTimePicker */}
+      {/*     value={birthdate || new Date()} */}
+      {/*     mode="date" */}
+      {/*     display="spinner" */}
+      {/*     onChange={handleDateChange} */}
+      {/*   /> */}
+      {/* )} */}
     </KeyboardAvoidingView>
   );
 };

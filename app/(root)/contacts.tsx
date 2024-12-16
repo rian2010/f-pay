@@ -42,7 +42,7 @@ export default function Kontak() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#23f2d2" />
+        <ActivityIndicator size="large" color="#065ea8" />
       </View>
     );
   }

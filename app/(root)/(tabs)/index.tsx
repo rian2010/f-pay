@@ -1,14 +1,28 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 import images from '@/constants/images';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import LoginPage from '@/app/(auth)/sign-in';
+import { useAuth } from '@/context/authContext';
 
 const HomeScreen = () => {
+  const { token, user, isLoading } = useAuth();
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!token) {
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          LoginPage
+        ]
+      })
+    }
+  }, [token, navigation]);
 
   const handleNotification = () => {
     navigation.navigate('notifikasi');
@@ -42,7 +56,7 @@ const HomeScreen = () => {
             style={styles.profileImage}
           />
           <View>
-            <Text style={styles.greetingText}>Hi, Miaw</Text>
+            <Text style={styles.greetingText}>Hi,{user ? user.username : 'Loading...'}</Text>
             <Text style={styles.dateText}>Rabu, Feb 14, 2024</Text>
           </View>
         </View>
