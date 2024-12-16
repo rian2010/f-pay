@@ -24,8 +24,13 @@ func CheckPassword(hash, password string) bool {
 	return err == nil
 }
 
-func CheckPin(hash, pin string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(pin))
+// func CheckPin(hash, pin string) bool {
+// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(pin))
+// 	return err == nil
+// }
+
+func CheckPin(storedPin, pin string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(storedPin), []byte(pin))
 	return err == nil
 }
 
