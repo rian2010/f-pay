@@ -65,8 +65,7 @@ const PinEntryScreen: React.FC = () => {
         Toast.show({
           type: 'success',
           position: 'top',
-          text1: 'Berhasil',
-          text2: 'eiag',
+          text1: 'Login Berhasil',
           visibilityTime: 4000
         })
         navigation.navigate('(root)'); // Navigate to root screen if PIN is valid

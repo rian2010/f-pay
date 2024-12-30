@@ -47,7 +47,7 @@ const _layout = () => {
         },
 
       }} />
-      <Stack.Screen name="transfer" options={{
+      <Stack.Screen name="actionTransfer" options={{
         title: 'Transfer',
         headerShown: false,
         headerShadowVisible: false,
@@ -60,7 +60,7 @@ const _layout = () => {
           backgroundColor: '#f5f5f5'
         },
       }} />
-      < Stack.Screen name="contacts" options={{
+      <Stack.Screen name="contacts" options={{
         title: 'Contacts',
         headerShown: false,
         headerShadowVisible: false,
@@ -74,7 +74,24 @@ const _layout = () => {
         }
       }}
       />
+      <Stack.Screen name="transferPage" options={{
+        title: 'Transfer',
+        headerShown: true,
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontFamily: 'PoppinsRegular',
+          fontSize: 18
+        },
+        headerStyle: {
+          backgroundColor: '#32A7E2'
+        },
+        headerTintColor: '#fff'
+      }}
+      />
+
     </Stack>
+
   )
 }
 

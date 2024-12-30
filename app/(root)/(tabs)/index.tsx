@@ -31,7 +31,7 @@ const HomeScreen = () => {
   const handleActionButtonPress = (label) => {
     switch (label) {
       case 'Transfer':
-        navigation.navigate('transfer'); // Adjust with your actual screen name
+        navigation.navigate('transferPage'); // Adjust with your actual screen name
         break;
       case 'Top-up':
         navigation.navigate('topup'); // Adjust with your actual screen name
@@ -56,7 +56,7 @@ const HomeScreen = () => {
             style={styles.profileImage}
           />
           <View>
-            <Text style={styles.greetingText}>Hi,{user ? user.username : 'Loading...'}</Text>
+            <Text style={styles.greetingText}>Hi, Twilight</Text>
             <Text style={styles.dateText}>Rabu, Feb 14, 2024</Text>
           </View>
         </View>

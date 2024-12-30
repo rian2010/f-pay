@@ -26,7 +26,7 @@ const MenuScreen = () => {
   const handleNavigation = (label) => {
     switch (label) {
       case 'Transfer':
-        navigation.navigate('transfer');
+        navigation.navigate('actionTransfer');
         break;
       case 'Top up Wallet':
         navigation.navigate('topup');
@@ -40,6 +40,9 @@ const MenuScreen = () => {
       // case 'Tagihan':
       //   navigation.navigate('tarik');
       //   break;
+      case 'Bantuan':
+        navigation.navigate('resi');
+        break;
       case 'History Transaksi':
         navigation.navigate('history');
         break;

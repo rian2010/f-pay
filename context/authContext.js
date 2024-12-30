@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
-        const response = await fetch('http://localhost:8080/current_user', { //NOTE: untuk semua "LOCALHOST" di ganti jadi ip address hp
+        const response = await fetch('http://192.168.100.112:8080/current_user', { //NOTE: untuk semua "LOCALHOST" di ganti jadi ip address hp
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginWithPhone = async (phoneNumber) => {
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch('http://192.168.100.112:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ step: 'verify_no_hp', no_hp: phoneNumber }),
@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyPin = async (pin, step) => {
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch('http://192.168.100.112:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ step, no_hp: noHP, pin }), // Send phone number and PIN
