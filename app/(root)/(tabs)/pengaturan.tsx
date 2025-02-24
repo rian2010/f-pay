@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TabSection from '@/components/in_out';
 import images from '@/constants/images';
-
 import LogoutModal from '@/components/logoutmodal';
+import { useAuth } from '@/context/authContext';
+import { useNavigation } from '@react-navigation/native';
+
+import { router } from "expo-router";
+
 
 const Account = () => {
+  const { token, logout } = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
 
-  // Function to toggle the modal visibility
+  useEffect(() => {
+    if (!token) {
+      router.push('/(auth)/sign-in'); // Navigate to the login page
+    }
+  }, [token, router]);
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  // Function to handle logout action
   const handleLogout = () => {
     toggleModal();
+    logout();
     console.log('User logged out');
-    // Add your logout logic here (e.g., clearing user data, navigating to login screen)
+  };
+
+  const handleProfile = () => {
+    navigation.navigate('Profil'); // Navigate to the profile screen
+  };
+
+  const handleAkun = () => {
+    navigation.navigate('PengaturanAkun'); // Navigate to the account settings screen
   };
 
   return (
@@ -37,37 +55,36 @@ const Account = () => {
         </View>
 
         {/* User Name Section */}
-        <View className='pt-14'>
-          <Text className='text-[20px] justify-center text-center font-pregular'>Miaw</Text>
+        <View className="pt-14">
+          <Text className="text-[20px] justify-center text-center font-pregular">Miaw</Text>
         </View>
 
-        {/* Tab Section (Your Custom Tab Component) */}
         <TabSection />
 
         {/* Profile and Account Options */}
         <View style={styles.maincontent} className="w-[327px] h-[151px] mt-7 bg-white p-4">
           {/* Profile Option */}
-          <TouchableOpacity className="flex-row items-center justify-between mb-4">
+          <TouchableOpacity className="flex-row items-center justify-between mb-4" onPress={handleProfile}>
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
-                <MaterialCommunityIcons name='account' size={24} color="#32A7E2" />
+                <MaterialCommunityIcons name="account" size={24} color="#32A7E2" />
               </View>
               <Text className="text-sm font-pregular">Profil</Text>
             </View>
-            <MaterialCommunityIcons name='chevron-right' size={24} color="#32A7E2" />
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#32A7E2" />
           </TouchableOpacity>
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
           {/* Account Option */}
-          <TouchableOpacity className="flex-row items-center justify-between mt-4">
+          <TouchableOpacity className="flex-row items-center justify-between mt-4" onPress={handleAkun}>
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
-                <MaterialCommunityIcons name='shield-account-variant' size={24} color="#32A7E2" />
+                <MaterialCommunityIcons name="shield-account-variant" size={24} color="#32A7E2" />
               </View>
               <Text className="text-sm font-pregular">Akun</Text>
             </View>
-            <MaterialCommunityIcons name='chevron-right' size={24} color="#32A7E2" />
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#32A7E2" />
           </TouchableOpacity>
         </View>
 
@@ -77,11 +94,11 @@ const Account = () => {
           <TouchableOpacity className="flex-row items-center justify-between mb-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
-                <MaterialCommunityIcons name='frequently-asked-questions' size={24} color="#32A7E2" />
+                <MaterialCommunityIcons name="frequently-asked-questions" size={24} color="#32A7E2" />
               </View>
               <Text className="text-sm font-pregular">Pusat Bantuan</Text>
             </View>
-            <MaterialCommunityIcons name='chevron-right' size={24} color="#32A7E2" />
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#32A7E2" />
           </TouchableOpacity>
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
@@ -90,36 +107,29 @@ const Account = () => {
           <TouchableOpacity className="flex-row items-center justify-between mt-4 mb-4">
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
-                <MaterialCommunityIcons name='file-document' size={24} color="#32A7E2" />
+                <MaterialCommunityIcons name="file-document" size={24} color="#32A7E2" />
               </View>
               <Text className="text-sm font-pregular">Syarat & Ketentuan</Text>
             </View>
-            <MaterialCommunityIcons name='chevron-right' size={24} color="#32A7E2" />
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#32A7E2" />
           </TouchableOpacity>
 
           <View className="w-full h-[1px] bg-[#E0E0E0]" />
 
           {/* Log Out Option */}
-          <TouchableOpacity
-            className="flex-row items-center justify-between mt-4"
-            onPress={toggleModal}
-          >
+          <TouchableOpacity className="flex-row items-center justify-between mt-4" onPress={toggleModal}>
             <View className="flex-row items-center">
               <View className="bg-[#e8f4fa] rounded-[25px] h-[34px] w-[34px] items-center justify-center mr-2">
-                <MaterialCommunityIcons name='logout' size={24} color="#E74C3C" />
+                <MaterialCommunityIcons name="logout" size={24} color="#E74C3C" />
               </View>
               <Text className="text-sm font-pregular">Log Out</Text>
             </View>
-            <MaterialCommunityIcons name='chevron-right' size={24} color="#E74C3C" />
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#E74C3C" />
           </TouchableOpacity>
         </View>
 
         {/* Logout Modal */}
-        <LogoutModal
-          isVisible={isModalVisible}
-          onClose={toggleModal}
-          onLogout={handleLogout}
-        />
+        <LogoutModal isVisible={isModalVisible} onClose={toggleModal} onLogout={handleLogout} />
       </View>
     </ScrollView>
   );

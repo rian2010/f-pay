@@ -1,3 +1,5 @@
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
@@ -28,7 +30,6 @@ const DikirimRoute = () => (
     data={data}
     renderItem={({ item }) => <TransactionCard item={item} />}
     keyExtractor={(item, index) => index.toString()}
-    contentContainerStyle={styles.list}
   />
 );
 
@@ -52,6 +53,13 @@ const TransactionHistory = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={{ position: 'absolute', left: 2 }}>
+          <Ionicons name="arrow-back" size={21} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Top Up</Text>
+      </View>
+
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -80,6 +88,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F3F4F6',
+    paddingTop: 30,
+    paddingHorizontal: 21
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Regular',
+    marginBottom: 21,
+    marginTop: 20,
   },
   tabView: {
     flex: 1,
@@ -88,8 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 25,
-    marginHorizontal: 20,
+    borderRadius: 12,
     marginVertical: 10,
     overflow: 'hidden',
   },
@@ -100,7 +120,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     backgroundColor: '#32A7E2',
-    borderRadius: 20,
+    borderRadius: 12,
   },
   tabText: {
     color: '#B0B0B0',
@@ -109,9 +129,6 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: '#FFFFFF',
     fontSize: 16,
-  },
-  list: {
-    paddingHorizontal: 20,
   },
   card: {
     backgroundColor: '#FFFFFF',

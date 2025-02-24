@@ -7,6 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true, 
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -41,7 +42,24 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-font"
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
+      [
+      "react-native-vision-camera",
+      {
+        "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera.",
+
+        // optionally, if you want to record audio:
+        "enableMicrophonePermission": true,
+        "microphonePermissionText": "$(PRODUCT_NAME) needs access to your Microphone."
+      }
+    ],
+    "expo-font",
+    "react-native-vision-camera"
     ],
     "experiments": {
       "typedRoutes": true

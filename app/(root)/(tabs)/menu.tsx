@@ -9,14 +9,14 @@ const MenuScreen = () => {
   const navigation = useNavigation();
 
   const primaryMenu = [
-    { id: '1', icon: 'send', label: 'Transfer Uang', color: '#32A7E2' },
+    { id: '1', icon: 'send', label: 'Transfer', color: '#32A7E2' },
     { id: '2', icon: 'wallet', label: 'Top up Wallet', color: '#B548C6' },
     { id: '3', icon: 'qr-code', label: 'Scan QR', color: '#FF8700' },
-    { id: '4', icon: 'arrow-down-circle', label: 'Tarik duit', color: '#22B07D' },
+    // { id: '4', icon: 'arrow-down-circle', label: 'Tarik duit', color: '#22B07D' },
   ];
 
   const otherMenu = [
-    { id: '5', icon: 'cash', label: 'Tagihan', color: '#F67171' },
+    // { id: '5', icon: 'cash', label: 'Tagihan', color: '#F67171' },
     { id: '6', icon: 'swap-vertical', label: 'History Transaksi', color: '#9471F6' },
     { id: '7', icon: 'call', label: 'Kontak', color: '#8aadf4' },
     { id: '8', icon: 'help-circle', label: 'Bantuan', color: '#F5A623' },
@@ -25,8 +25,8 @@ const MenuScreen = () => {
 
   const handleNavigation = (label) => {
     switch (label) {
-      case 'Transfer Uang':
-        navigation.navigate('transfer');
+      case 'Transfer':
+        navigation.navigate('actionTransfer');
         break;
       case 'Top up Wallet':
         navigation.navigate('topup');
@@ -34,17 +34,23 @@ const MenuScreen = () => {
       case 'Scan QR':
         navigation.navigate('qr');
         break;
-      case 'Tarik duit':
-        navigation.navigate('Withdraw');
-        break;
-      case 'Tagihan':
-        navigation.navigate('tarik');
+      // case 'Tarik duit':
+      //   navigation.navigate('Withdraw');
+      //   break;
+      // case 'Tagihan':
+      //   navigation.navigate('tarik');
+      //   break;
+      case 'Bantuan':
+        navigation.navigate('resi');
         break;
       case 'History Transaksi':
         navigation.navigate('history');
         break;
       case 'Pengaturan':
         navigation.navigate('pengaturan');
+        break;
+      case 'Kontak':
+        navigation.navigate('contacts');
         break;
       default:
         console.warn(`No navigation defined for ${label}`);

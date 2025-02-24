@@ -1,14 +1,28 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 import images from '@/constants/images';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import LoginPage from '@/app/(auth)/sign-in';
+import { useAuth } from '@/context/authContext';
 
-const Home = () => {
+const HomeScreen = () => {
+  const { token, user, isLoading } = useAuth();
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!token) {
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          LoginPage
+        ]
+      })
+    }
+  }, [token, navigation]);
 
   const handleNotification = () => {
     navigation.navigate('notifikasi');
@@ -17,10 +31,10 @@ const Home = () => {
   const handleActionButtonPress = (label) => {
     switch (label) {
       case 'Transfer':
-        navigation.navigate('TransferScreen'); // Adjust with your actual screen name
+        navigation.navigate('transferPage'); // Adjust with your actual screen name
         break;
       case 'Top-up':
-        navigation.navigate('TopUpScreen'); // Adjust with your actual screen name
+        navigation.navigate('topup'); // Adjust with your actual screen name
         break;
       case 'Scan QR':
         navigation.navigate('qr'); // Adjust with your actual screen name
@@ -42,7 +56,7 @@ const Home = () => {
             style={styles.profileImage}
           />
           <View>
-            <Text style={styles.greetingText}>Hi, Miaw</Text>
+            <Text style={styles.greetingText}>Hi, Twilight</Text>
             <Text style={styles.dateText}>Rabu, Feb 14, 2024</Text>
           </View>
         </View>
@@ -177,5 +191,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeScreen;
 

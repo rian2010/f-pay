@@ -31,6 +31,10 @@ func main() {
 	router.HandleFunc("/register", RegisterHandler).Methods("POST")
 	router.HandleFunc("/login", LoginHandler).Methods("POST")
 
+	router.HandleFunc("/transfer", handleTransfer).Methods("POST")
+	router.HandleFunc("/current_user", GetCurrentUserHandler).Methods("GET")
+	// router.HandleFunc("/auth/verifyPin", VerifyPinHandler).Methods("POST")
+
 	log.Println("Server running on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

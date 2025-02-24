@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 
 const NotificationScreen = () => {
@@ -55,6 +56,13 @@ const NotificationScreen = () => {
 
   return (
     <ScrollView style={styles.scrollContainer}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={{ position: 'absolute', left: 2 }}>
+          <Ionicons name="arrow-back" size={21} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Notifikasi</Text>
+      </View>
+
       <View style={styles.container}>
         {groupedNotifications.map((group, index) => (
           <View key={index} style={styles.menuContainer}>
@@ -90,12 +98,25 @@ const NotificationScreen = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
-    padding: 21,
     backgroundColor: '#F7F7FB',
+    paddingHorizontal: 21,
+    paddingTop: 30
   },
   container: {
     flex: 1,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Regular',
+    marginBottom: 21,
+    marginTop: 20,
+  },
+
   dayHeader: {
     fontSize: 16,
     paddingLeft: 15,
