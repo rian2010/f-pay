@@ -3,6 +3,14 @@
     <h1>F-Pay</h1>
 </div>
 
+# Project Title
+
+🔔 **Continuation Notice**  
+This project is now actively maintained in the [`tree` branch](https://github.com/rian2010/f-pay/tree/tree).  
+**Switch branches** for the latest updates: `git checkout tree`
+
+![Branch](https://img.shields.io/badge/Active%20Branch-tree-blueviolet)
+
 ## Description
 
 F-Pay is an innovative payment application powered by face-scanning technology. With F-Pay, users can complete transactions quickly, securely, and without the need for physical devices like cards or cash. The app is designed to deliver a seamless and modern payment experience.
